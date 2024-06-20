@@ -2,9 +2,9 @@ import { t } from 'i18next';
 
 import { enableClerk } from '@/const/auth';
 import { UserStore } from '@/store/user';
-import { UserType } from '@/types/user';
-
-const DEFAULT_USERNAME = 'LobeChat';
+import { LobeUser } from '@/types/user';
+import {APP_NAME} from '@/const/app'
+const DEFAULT_USERNAME = APP_NAME;
 
 const nickName = (s: UserStore) => {
   if (!s.enableAuth()) return t('userPanel.defaultNickname', { ns: 'common' });
@@ -24,9 +24,9 @@ const username = (s: UserStore) => {
 
 export const userProfileSelectors = {
   nickName,
-  userAvatar: (s: UserStore): string => s.user?.avatar || s.avatar || '',
-  userId: (s: UserStore) => s.userId,
-  userProfile: (s: UserStore): UserType | null | undefined => s.user,
+  userAvatar: (s: UserStore): string => s.user?.avatar || '',
+  userId: (s: UserStore) => s.user?.id,
+  userProfile: (s: UserStore): LobeUser | null | undefined => s.user,
   username,
 };
 
@@ -41,6 +41,7 @@ const isLogin = (s: UserStore) => {
 };
 
 export const authSelectors = {
+  isLoaded: (s: UserStore) => s.isLoaded,
   isLogin,
   isLoginWithAuth: (s: UserStore) => s.isSignedIn,
   isLoginWithClerk: (s: UserStore): boolean => (s.isSignedIn && enableClerk) || false,

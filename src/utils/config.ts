@@ -10,9 +10,10 @@ import {
   ConfigModelMap,
   ExportType,
 } from '@/types/exportConfig';
+import {APP_NAME} from '@/const/app'
 
 export const exportConfigFile = (config: object, fileName?: string) => {
-  const file = `LobeChat-${fileName || '-config'}-v${CURRENT_CONFIG_VERSION}.json`;
+  const file = `${APP_NAME}-${fileName || '-config'}-v${CURRENT_CONFIG_VERSION}.json`;
 
   // 创建一个 Blob 对象
   const blob = new Blob([JSON.stringify(config)], { type: 'application/json' });

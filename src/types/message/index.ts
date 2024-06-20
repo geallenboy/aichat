@@ -1,5 +1,6 @@
 import { IPluginErrorType } from '@lobehub/chat-plugin-sdk';
 
+import { ILobeAgentRuntimeErrorType } from '@/libs/agent-runtime';
 import { ErrorType } from '@/types/fetch';
 
 import { BaseDataModel } from '../meta';
@@ -14,7 +15,7 @@ export type MessageRoleType = 'user' | 'system' | 'assistant' | 'tool';
 export interface ChatMessageError {
   body?: any;
   message: string;
-  type: ErrorType | IPluginErrorType | any;
+  type: ErrorType | IPluginErrorType | ILobeAgentRuntimeErrorType;
 }
 
 export interface ChatTranslate extends Translate {

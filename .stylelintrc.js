@@ -1,5 +1,8 @@
-const stylelintLint = require('@garron/standard/dist/stylelintLint');
+const config = require('@lobehub/lint').stylelint;
 
 module.exports = {
-  ...stylelintLint
+  ...config,
+  rules: {
+    'selector-id-pattern': null,
+  },
 };

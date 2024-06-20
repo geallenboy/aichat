@@ -3,13 +3,12 @@
 import { SiDiscord, SiGithub, SiMedium, SiX } from '@icons-pack/react-simple-icons';
 import { ActionIcon } from '@lobehub/ui';
 import { createStyles } from 'antd-style';
-
+import Link from 'next/link';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flexbox } from 'react-layout-kit';
 
 import { DISCORD, GITHUB, MEDIDUM, X } from '@/const/url';
-import { Link } from 'react-router-dom';
 
 const useStyles = createStyles(({ css, token }) => {
   return {
@@ -32,24 +31,24 @@ const Follow = memo(() => {
   const { t } = useTranslation('common');
   return (
     <Flexbox gap={8} horizontal>
-      <Link to={GITHUB} rel="noreferrer" target={'_blank'}>
+      <Link href={GITHUB} rel="noreferrer" target={'_blank'}>
         <ActionIcon
           className={styles.icon}
           icon={SiGithub as any}
           title={t('follow', { name: 'GitHub' })}
         />
       </Link>
-      <Link to={X} rel="noreferrer" target={'_blank'}>
+      <Link href={X} rel="noreferrer" target={'_blank'}>
         <ActionIcon className={styles.icon} icon={SiX as any} title={t('follow', { name: 'X' })} />
       </Link>
-      <Link to={DISCORD} rel="noreferrer" target={'_blank'}>
+      <Link href={DISCORD} rel="noreferrer" target={'_blank'}>
         <ActionIcon
           className={styles.icon}
           icon={SiDiscord as any}
           title={t('follow', { name: 'Discord' })}
         />
       </Link>
-      <Link to={MEDIDUM} rel="noreferrer" target={'_blank'}>
+      <Link href={MEDIDUM} rel="noreferrer" target={'_blank'}>
         <ActionIcon
           className={styles.icon}
           icon={SiMedium as any}

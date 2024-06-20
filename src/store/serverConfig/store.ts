@@ -1,13 +1,11 @@
-import { StoreApi } from 'zustand';
 import { createContext } from 'zustand-utils';
-import { devtools } from 'zustand/middleware';
 import { shallow } from 'zustand/shallow';
 import { createWithEqualityFn } from 'zustand/traditional';
 import { StateCreator } from 'zustand/vanilla';
 
 import { DEFAULT_FEATURE_FLAGS, IFeatureFlags } from '@/config/featureFlags';
+import { createDevtools } from '@/store/middleware/createDevtools';
 import { GlobalServerConfig } from '@/types/serverConfig';
-import { isDev } from '@/utils/env';
 import { merge } from '@/utils/merge';
 import { StoreApiWithSelector } from '@/utils/zustand';
 
@@ -34,39 +32,15 @@ const createStore: CreateStore = (runtimeState) => () => ({
 
 //  ===============  实装 useStore ============ //
 
-let store: StoreApi<ServerConfigStore>;
 
-declare global {
-  interface Window {
-    global_serverConfigStore: StoreApi<ServerConfigStore>;
-  }
-}
 
-export const initServerConfigStore = (initState: Partial<ServerConfigStore>) =>
-  createWithEqualityFn<ServerConfigStore>()(
-    devtools(createStore(initState || {}), {
-      name: 'LobeChat_ServerConfig' + (isDev ? '_DEV' : ''),
-    }),
-    shallow,
-  );
+const devtools = createDevtools('serverConfig');
 
-export const createServerConfigStore = (initState?: Partial<ServerConfigStore>) => {
-  // make sure there is only one store
-  if (!store) {
-    store = createWithEqualityFn<ServerConfigStore>()(
-      devtools(createStore(initState || {}), {
-        name: 'LobeChat_ServerConfig' + (isDev ? '_DEV' : ''),
-      }),
-      shallow,
-    );
+export const serverConfigStore = (initState: Partial<ServerConfigStore>) =>
+  createWithEqualityFn<ServerConfigStore>()(devtools(createStore(initState || {})), shallow);
 
-    if (typeof window !== 'undefined') {
-      window.global_serverConfigStore = store;
-    }
-  }
 
-  return store;
-};
 
+//createContext 将应用转化为组件
 export const { useStore: useServerConfigStore, Provider } =
   createContext<StoreApiWithSelector<ServerConfigStore>>();

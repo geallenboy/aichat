@@ -13,7 +13,7 @@ import {
   Maximize,
   Settings2,
 } from 'lucide-react';
-import {Link} from 'react-router-dom';
+import Link from 'next/link';
 import { PropsWithChildren, memo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flexbox } from 'react-layout-kit';
@@ -23,6 +23,7 @@ import type { MenuProps } from '@/components/Menu';
 import { DISCORD, DOCUMENTS, EMAIL_SUPPORT, GITHUB_ISSUES } from '@/const/url';
 import DataImporter from '@/features/DataImporter';
 import { useOpenSettings } from '@/hooks/useInterceptingRoutes';
+import { usePWAInstall } from '@/hooks/usePWAInstall';
 import { useQueryRoute } from '@/hooks/useQueryRoute';
 import { configService } from '@/services/config';
 import { SettingsTabs } from '@/store/global/initialState';
@@ -55,7 +56,7 @@ const NewVersionBadge = memo(
 
 export const useMenu = () => {
   const router = useQueryRoute();
-
+  const { canInstall, install } = usePWAInstall();
   const hasNewVersion = useNewVersion();
   const openSettings = useOpenSettings();
   const { t } = useTranslation(['common', 'setting', 'auth']);

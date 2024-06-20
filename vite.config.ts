@@ -1,45 +1,34 @@
+import { resolve } from 'node:path';
+import { defineConfig } from 'vitest/config';
 
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import { type ConfigEnv, type UserConfig, loadEnv } from 'vite';
-
-const CWD = process.cwd();
-
-export default ({ command, mode }: ConfigEnv): UserConfig => {
-  // 环境变量
-  const { VITE_BASE_URL, VITE_DROP_CONSOLE } = loadEnv(mode, CWD);
-  return {
-    base: VITE_BASE_URL,
-    resolve: {
-      alias: [
-        {
-          find: '@',
-          replacement: path.resolve(__dirname, 'src')
-        }
-      ]
+export default defineConfig({
+  optimizeDeps: {
+    exclude: ['crypto', 'util', 'tty'],
+    include: ['@lobehub/tts'],
+  },
+  test: {
+    alias: {
+      '@': resolve(__dirname, './src'),
+      '~test-utils': resolve(__dirname, './tests/utils.tsx'),
     },
-    server: {
-      port: 8080,
-      host: true,
-      open: true,
-      proxy: {
-        '/dev-api': {
-          target: 'http://localhost:8080',
-          changeOrigin: true,
-          rewrite: (p) => p.replace(/^\/dev-api/, '')
-        }
-      }
+    coverage: {
+      all: false,
+      exclude: [
+        '__mocks__/**',
+        // just ignore the migration code
+        // we will use pglite in the future
+        // so the coverage of this file is not important
+        'src/database/client/core/db.ts',
+      ],
+      provider: 'v8',
+      reporter: ['text', 'json', 'lcov', 'text-summary'],
     },
-    plugins: [
-      react(),
-    ],
-    build: {
-      terserOptions: {
-        compress: {
-          keep_infinity: true,
-          drop_console: !!VITE_DROP_CONSOLE
-        }
-      }
-    }
-  };
-};
+    deps: {
+      inline: ['vitest-canvas-mock'],
+    },
+    // threads: false,
+    environment: 'happy-dom',
+    globals: true,
+    setupFiles: './tests/setup.ts',
+  },
+});

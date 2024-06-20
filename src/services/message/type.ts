@@ -1,3 +1,4 @@
+import { DB_Message } from '@/database/client/schemas/message';
 import {
   ChatMessage,
   ChatMessageError,
@@ -31,7 +32,7 @@ export interface IMessageService {
   countTodayMessages(): Promise<number>;
 
   updateMessageError(id: string, error: ChatMessageError): Promise<any>;
-  updateMessage(id: string, message: Partial<any>): Promise<any>;
+  updateMessage(id: string, message: Partial<DB_Message>): Promise<any>;
   updateMessageTTS(id: string, tts: Partial<ChatTTS> | false): Promise<any>;
   updateMessageTranslate(id: string, translate: Partial<ChatTranslate> | false): Promise<any>;
   updateMessagePluginState(id: string, value: Record<string, any>): Promise<any>;
@@ -42,5 +43,4 @@ export interface IMessageService {
   removeAllMessages(): Promise<any>;
 
   hasMessages(): Promise<boolean>;
-  messageCountToCheckTrace(): Promise<boolean>;
 }

@@ -1,5 +1,1 @@
-const prettierLint = require('@garron/standard/dist/prettierLint');
-
-module.exports = {
-  ...prettierLint
-};
+module.exports = require('@lobehub/lint').prettier;

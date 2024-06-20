@@ -16,7 +16,7 @@ import {
   ZhiPuProviderCard,
   filterEnabledModels,
 } from '@/config/modelProviders';
-
+import { ModelProvider } from '@/libs/agent-runtime';
 import { GlobalLLMConfig } from '@/types/settings';
 
 export const DEFAULT_LLM_CONFIG: GlobalLLMConfig = {
@@ -107,4 +107,4 @@ export const DEFAULT_LLM_CONFIG: GlobalLLMConfig = {
 
 export const DEFAULT_MODEL = 'gpt-3.5-turbo';
 
-export const DEFAULT_PROVIDER = '';
+export const DEFAULT_PROVIDER = ModelProvider.OpenAI;

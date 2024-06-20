@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import qs, { type ParsedQuery } from 'query-string';
 import { useMemo } from 'react';
 
@@ -29,16 +29,16 @@ const genHref = ({ hash, replace, url, prevQuery = {}, query = {} }: GenHrefOpti
 };
 
 export const useQueryRoute = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const prevQuery = useQuery();
 
   return useMemo(
     () => ({
       push: (url: string, options: QueryRouteOptions = {}) => {
-        return navigate(genHref({ prevQuery, url, ...options }));
+        return router.push(genHref({ prevQuery, url, ...options }));
       },
       replace: (url: string, options: QueryRouteOptions = {}) => {
-        return navigate(genHref({ prevQuery, url, ...options }),{replace: true});
+        return router.replace(genHref({ prevQuery, url, ...options }));
       },
     }),
     [prevQuery],
